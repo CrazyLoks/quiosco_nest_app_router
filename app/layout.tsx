@@ -1,4 +1,5 @@
 //* Este es un archivo especial en Next.js
+//* Un archivo layout comparte los estilos con todos los archivos del nivel o 'hijos', igual que en React Router DOM
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
