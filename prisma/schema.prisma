@@ -1,0 +1,25 @@
+//* En este archivo se definen los modelos de la base de datos
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category { // Nombre de la tabla
+  id  Int   @id   @default(autoincrement())
+  name  String 
+  slug  String
+  products  Product[] // Una categoria puede tener varios productos, ambas tablas deben relacionarse cuando usamos una 'llave foránea'
+}
+
+model Product {
+  id  Int   @id   @default(autoincrement())
+  name  String
+  price Float
+  image String
+  categoryId  Int // Este campo va a ser la llave foránea de la llave primaria de la tabla Category
+  category  Category  @relation( fields: [categoryId], references: [id] ) // establecemos la relación de las 'llaves', primero ponemos el campo de esta tabla y después el campo de la otra tabla, la llave primaria
+}
