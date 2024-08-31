@@ -1,5 +1,6 @@
 //* Con la carpeta llamada asi, entre corchetes, va a ser dinámica, por cada categoria vamos a tener este archivo, una page
 
+import ProductCard from "@/components/products/ProductCard";
 import { prisma } from "@/src/lib/prisma"
 
 
@@ -21,6 +22,13 @@ export default async function OrderPage({params} : { params: { category : string
   console.log(products);
   
   return (
-    <div>OrderPage</div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 items-start">
+      {products.map(product => (
+        <ProductCard 
+          key={product.id}
+          product={product}
+        />
+      ))}
+    </div>
   )
 }
