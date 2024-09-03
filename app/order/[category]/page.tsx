@@ -19,7 +19,6 @@ async function getProducts( category: string ) {
 export default async function OrderPage({params} : { params: { category : string }}) { // Next permite componentes asyncronos
 
   const products = await getProducts(params.category);
-  console.log(products);
   
   return (
     <>
