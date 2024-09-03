@@ -2,14 +2,21 @@ import { XCircleIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline'
 import { OrderItem } from "@/src/types"
 import { formatCurrency } from '@/src/lib/utils'
 import { useStore } from '@/src/store'
+import { useMemo } from 'react'
 
 type ProductDetailsProps = {
     item: OrderItem
 }
 
+const MIN_ITEMS = 1;
+const MAX_ITEMS = 5;
+
 export default function ProductDetails({ item }: ProductDetailsProps) {
 
-    const increaseQuantity = useStore((state) => state.increaseQuantity)
+    const increaseQuantity = useStore((state) => state.increaseQuantity);
+    const decreaseQuantity = useStore((state) => state.decreaseQuantity);
+    const disableDecreaseButton = useMemo(() => item.quantity === MIN_ITEMS, [item]); // Cuando la cantidad del item sea 1, se va a deshabilitar el botón de '-'
+    const disableIncreaseButton = useMemo(() => item.quantity === MAX_ITEMS, [item])
 
     return (
         <div className="shadow space-y-1 p-4 bg-white  border-t border-gray-200 ">
@@ -18,8 +25,8 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
                     <p className="text-xl font-bold">{item.name} </p>
 
                     <button
-                    type="button"
-                    onClick={() => {}}
+                        type="button"
+                        onClick={() => {}}
                     >
                     <XCircleIcon className="text-red-600 h-8 w-8"/>
                     </button>
@@ -29,19 +36,23 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
                 </p>
                 <div className="flex gap-5 px-10 py-2 bg-gray-100 w-fit rounded-lg">
                     <button
-                    type="button"
-                    onClick={() => {}}
+                        type="button"
+                        onClick={() => decreaseQuantity(item.id)}
+                        disabled={disableDecreaseButton}
+                        className='disabled:opacity-20'
                     >
                         <MinusIcon className="h-6 w-6"/>
                     </button>
 
                     <p className="text-lg font-black ">
-                    {item.quantity}
+                        {item.quantity}
                     </p>
 
                     <button
-                    type="button"
-                    onClick={() => increaseQuantity(item.id)}
+                        type="button"
+                        onClick={() => increaseQuantity(item.id)}
+                        disabled={disableIncreaseButton}
+                        className='disabled:opacity-20'
                     >
                         <PlusIcon className="h-6 w-6"/>
                     </button>
