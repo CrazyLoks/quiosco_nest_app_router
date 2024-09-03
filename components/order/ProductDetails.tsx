@@ -15,6 +15,7 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
 
     const increaseQuantity = useStore((state) => state.increaseQuantity);
     const decreaseQuantity = useStore((state) => state.decreaseQuantity);
+    const removeItem = useStore((state) => state.removeItem);
     const disableDecreaseButton = useMemo(() => item.quantity === MIN_ITEMS, [item]); // Cuando la cantidad del item sea 1, se va a deshabilitar el botón de '-'
     const disableIncreaseButton = useMemo(() => item.quantity === MAX_ITEMS, [item])
 
@@ -26,7 +27,7 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
 
                     <button
                         type="button"
-                        onClick={() => {}}
+                        onClick={() => removeItem(item.id)}
                     >
                     <XCircleIcon className="text-red-600 h-8 w-8"/>
                     </button>

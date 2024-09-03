@@ -7,6 +7,7 @@ interface Store {
     addToOrder: (product: Product) => void
     increaseQuantity: (id: Product['id']) => void
     decreaseQuantity: (id: Product['id']) => void
+    removeItem: (id: Product['id']) => void
 }
 
 export const useStore = create<Store>((set, get) => ({ // Creamos función para obtener el store (como un contexto), set es para escribir en el contexto
@@ -50,6 +51,11 @@ export const useStore = create<Store>((set, get) => ({ // Creamos función para 
 
         set(() => ({
             order
+        }))
+    },
+    removeItem: (id) => {
+        set((state) => ({
+            order: state.order.filter(item => item.id !== id)
         }))
     }
 }))
