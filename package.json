@@ -16,7 +16,8 @@
     "next": "14.2.6",
     "quiosco-next": "file:",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@types/node": "^20",
