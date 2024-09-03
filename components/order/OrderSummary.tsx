@@ -1,5 +1,6 @@
 "use client" // Si queremos usar hooks de React o Zustand (por ejemplo), el componente debe ser de cliente (usando Next.js)
 import { useStore } from "@/src/store"
+import ProductDetails from "./ProductDetails";
 
 export default function OrderSummary() {
 
@@ -11,7 +12,12 @@ export default function OrderSummary() {
 
         {order.length === 0 ? <p className="text-center my-10">El carrito está vacío</p> : (
           <div className="mt-5">
-            <p>Si hay algo</p>
+            {order.map(item => (
+              <ProductDetails 
+                key={item.id}
+                item={item}
+              />
+            ))}
           </div>
         )}
     </aside>
