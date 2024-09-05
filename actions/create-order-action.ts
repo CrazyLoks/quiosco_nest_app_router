@@ -1,4 +1,5 @@
 "use server"
+import { prisma } from "@/src/lib/prisma"
 import { OrderSchema } from "@/src/schema"
 
  // Ejecutamos las accions en el server
@@ -13,7 +14,18 @@ export async function createOrder(data: unknown) {
     }
 
     try {
-
+        await prisma.order.create({
+            data: {
+                name: result.data.name,
+                total: result.data.total,
+                orderProducts: {
+                    create: result.data.order.map(product => ({
+                        productId: product.id,
+                        quantity: product.quantity
+                    }))
+                }
+            }
+        })
     } catch (error) {
         console.log(error);
     }
