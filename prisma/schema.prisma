@@ -9,17 +9,36 @@ datasource db {
 }
 
 model Category { // Nombre de la tabla
-  id  Int   @id   @default(autoincrement())
+  id    Int   @id   @default(autoincrement())
   name  String 
   slug  String
   products  Product[] // Una categoria puede tener varios productos, ambas tablas deben relacionarse cuando usamos una 'llave foránea'
 }
 
 model Product {
-  id  Int   @id   @default(autoincrement())
+  id    Int   @id   @default(autoincrement())
   name  String
   price Float
   image String
   categoryId  Int // Este campo va a ser la llave foránea de la llave primaria de la tabla Category
   category  Category  @relation( fields: [categoryId], references: [id] ) // establecemos la relación de las 'llaves', primero ponemos el campo de esta tabla y después el campo de la otra tabla, la llave primaria
+  orderItems OrderProducts[]
+}
+
+model Order {
+  id      Int   @id   @default(autoincrement())
+  name    String  
+  total   Float
+  date    DateTime  @default(now())
+  status  Boolean   @default(false) // valor por default = false
+  orderReadyAt  DateTime? // valor opcional
+  orderProducts OrderProducts[] // Relación con la otra tabla
+}
+
+model OrderProducts {
+  id      Int   @id @default(autoincrement())
+  orderId Int
+  order   Order @relation( fields: [orderId], references: [id] )
+  productId   Int
+  product   Product @relation( fields: [productId], references: [id] )
 }
