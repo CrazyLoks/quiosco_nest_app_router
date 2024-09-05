@@ -12,19 +12,25 @@ export default function OrderSummary() {
   const order = useStore((state) => state.order);
   const total = useMemo(() => order.reduce((total, item) => total + (item.quantity * item.price), 0), [order])
 
-  const handleCreateOrder = (formData: FormData) => {
+  const handleCreateOrder = async (formData: FormData) => {
     const data = {
       name: formData.get('name')
     }
 
     const result = OrderSchema.safeParse(data); // Comprobamos que sea igual al schema de zod
-    if (!result.success) {
+    if (!result.success) { // Validación del lado del servidor
       result.error.issues.forEach((issue) => {
         toast.error(issue.message); // Mostramos con una alerta el mensaje de error
       })
+      return;
     }
 
-    createOrder(); // Action que se ejecuta del lado del servidor
+    const response = await createOrder(data); // Action que se ejecuta del lado del servidor
+    if (response?.errors) { // Validación del lado del servidor
+        response.errors.forEach((issue) => {
+          toast.error(issue.message); // Mostramos con una alerta el mensaje de error
+        })
+    }
   }
 
   return (
