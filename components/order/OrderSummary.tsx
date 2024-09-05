@@ -4,14 +4,20 @@ import ProductDetails from "./ProductDetails";
 import { useMemo } from "react";
 import { formatCurrency } from "@/src/lib/utils";
 import { createOrder } from "@/actions/create-order-action";
+import { OrderSchema } from "@/src/schema";
 
 export default function OrderSummary() {
 
   const order = useStore((state) => state.order);
   const total = useMemo(() => order.reduce((total, item) => total + (item.quantity * item.price), 0), [order])
 
-  const handleCreateOrder = () => {
-    console.log('desde handle');
+  const handleCreateOrder = (formData: FormData) => {
+    const data = {
+      name: formData.get('name')
+    }
+
+    const result = OrderSchema.safeParse(data); // Comprobamos que sea igual al schema de zod
+    
 
     createOrder(); // Action que se ejecuta del lado del servidor
   }
@@ -38,6 +44,13 @@ export default function OrderSummary() {
               className="w-full mt-10 space-y-5"
               action={handleCreateOrder} // Los action son funciones de Next para interactuar con la DB, las funciones son asyncronas y se ejecutan del lado del servidor pero se pueden llamar desde cualquier tipo de componente
             >
+              <input
+                type="text"
+                placeholder="Tu Nombre"
+                className="bg-white border border-gray-100 p-2 w-full"
+                name="name"
+              />
+
               <input
                 type="submit"
                 className="py-2 rounded uppercase text-white bg-black w-full text-center cursor-pointer font-bold"
