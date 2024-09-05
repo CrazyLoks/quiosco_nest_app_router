@@ -16,8 +16,8 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
     const increaseQuantity = useStore((state) => state.increaseQuantity);
     const decreaseQuantity = useStore((state) => state.decreaseQuantity);
     const removeItem = useStore((state) => state.removeItem);
-    const disableDecreaseButton = useMemo(() => item.quantity === MIN_ITEMS, [item]); // Cuando la cantidad del item sea 1, se va a deshabilitar el botón de '-'
-    const disableIncreaseButton = useMemo(() => item.quantity === MAX_ITEMS, [item])
+    const disableDecreaseButton = useMemo(() => item.quantity <= MIN_ITEMS, [item]); // Cuando la cantidad del item sea 1, se va a deshabilitar el botón de '-'
+    const disableIncreaseButton = useMemo(() => item.quantity >= MAX_ITEMS, [item])
 
     return (
         <div className="shadow space-y-1 p-4 bg-white  border-t border-gray-200 ">
