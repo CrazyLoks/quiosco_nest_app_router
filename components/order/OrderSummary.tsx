@@ -3,11 +3,18 @@ import { useStore } from "@/src/store"
 import ProductDetails from "./ProductDetails";
 import { useMemo } from "react";
 import { formatCurrency } from "@/src/lib/utils";
+import { createOrder } from "@/actions/create-order-action";
 
 export default function OrderSummary() {
 
   const order = useStore((state) => state.order);
   const total = useMemo(() => order.reduce((total, item) => total + (item.quantity * item.price), 0), [order])
+
+  const handleCreateOrder = () => {
+    console.log('desde handle');
+
+    createOrder(); // Action que se ejecuta del lado del servidor
+  }
 
   return (
     <aside className="lg:h-screen lg:overflow-y-scroll md:w-64 lg:w-96 p-5">
@@ -29,6 +36,7 @@ export default function OrderSummary() {
 
             <form
               className="w-full mt-10 space-y-5"
+              action={handleCreateOrder} // Los action son funciones de Next para interactuar con la DB, las funciones son asyncronas y se ejecutan del lado del servidor pero se pueden llamar desde cualquier tipo de componente
             >
               <input
                 type="submit"
