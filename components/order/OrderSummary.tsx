@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { formatCurrency } from "@/src/lib/utils";
 import { createOrder } from "@/actions/create-order-action";
 import { OrderSchema } from "@/src/schema";
+import { toast } from "react-toastify";
 
 export default function OrderSummary() {
 
@@ -17,7 +18,11 @@ export default function OrderSummary() {
     }
 
     const result = OrderSchema.safeParse(data); // Comprobamos que sea igual al schema de zod
-    
+    if (!result.success) {
+      result.error.issues.forEach((issue) => {
+        toast.error(issue.message); // Mostramos con una alerta el mensaje de error
+      })
+    }
 
     createOrder(); // Action que se ejecuta del lado del servidor
   }
