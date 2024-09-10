@@ -1,6 +1,7 @@
 "use server"
 import { prisma } from "@/src/lib/prisma"
 import { OrderIdSchema } from "@/src/schema"
+import { revalidatePath } from "next/cache";
 
  // aunque sea un componente de servidor, en los actions hay que poner esto
 
@@ -22,6 +23,8 @@ export async function completeOrder(formData: FormData) {
                     orderReadyAt: new Date(Date.now())
                 }
             })
+
+            revalidatePath('/admin/orders');
         } catch (error) {
             console.log(error);
         }
