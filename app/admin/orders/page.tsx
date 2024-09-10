@@ -1,7 +1,10 @@
+import Heading from '@/components/ui/Heading'
 import React from 'react'
 
-export default function page() {
+export default function OrdersPage() {
   return (
-    <div>Orders</div>
+    <>
+        <Heading>Administrar Ordenes</Heading>
+    </>
   )
 }
