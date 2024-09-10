@@ -36,6 +36,11 @@ export default function OrderCard({ order } : OrderCardProps) {
             </dl>
 
             <form action={completeOrder}>
+                <input 
+                    type="hidden"
+                    value={order.id} // asi pasamos ese valor, en un input escondido
+                    name="order_id" 
+                />
                 <input
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer"
