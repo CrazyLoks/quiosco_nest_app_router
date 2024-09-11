@@ -3,6 +3,7 @@ import ProductsTable from "@/components/products/ProductsTable";
 import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 import page from './new/page';
+import { redirect } from "next/navigation";
 
 async function productCount() {
   return await prisma.product.count(); // Retorna cuantos productos hay en la DB
@@ -28,10 +29,14 @@ export default async function ProductsPage({searchParams} : { searchParams: {pag
   const page = +searchParams.page || 1; // si no existe el parámetro page, se asignará 1
   const pageSize = 10;
 
+  if (page < 0) redirect('/admin/products');
+
   const productsData = getProducts(page, pageSize);
   const totalProductsData = productCount();
   const [ products, totalProducts ] = await Promise.all([productsData, totalProductsData]); // Se hacen ambas consultas al mismo tiempo porque ninguna depende de la otra
   const totalPages = Math.ceil(totalProducts / pageSize); // Ceil va a redondear hacia arriba siempre
+
+  if (page > totalPages) redirect('/admin/products');
 
   return (
     <>
