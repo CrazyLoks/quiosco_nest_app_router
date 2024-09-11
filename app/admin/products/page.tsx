@@ -31,6 +31,7 @@ export default async function ProductsPage({searchParams} : { searchParams: {pag
   const productsData = getProducts(page, pageSize);
   const totalProductsData = productCount();
   const [ products, totalProducts ] = await Promise.all([productsData, totalProductsData]); // Se hacen ambas consultas al mismo tiempo porque ninguna depende de la otra
+  const totalPages = Math.ceil(totalProducts / pageSize); // Ceil va a redondear hacia arriba siempre
 
   return (
     <>
@@ -42,6 +43,7 @@ export default async function ProductsPage({searchParams} : { searchParams: {pag
 
         <ProductsPagination 
           page={page}
+          totalPages={totalPages}
         />
     </>
   )
