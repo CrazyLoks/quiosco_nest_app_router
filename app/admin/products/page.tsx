@@ -3,7 +3,11 @@ import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
 
 async function getProducts() {
-  const products = await prisma.product.findMany(); // Nos traemos todos los productos
+  const products = await prisma.product.findMany({ // Nos traemos todos los productos
+    include: {
+      category: true
+    }
+  });
 
   return products;
 }
