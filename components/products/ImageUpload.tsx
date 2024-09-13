@@ -22,11 +22,14 @@ export default function ImageUpload() {
                 maxFiles: 1 // queremos subir 1 imagen por producto
             }}
         >
-            {() => (
+            {({open}) => (
                 <>
                     <div className="space-y-2">
                         <label className="text-slate-800">Imagen Producto</label>
-                        <div className="relative cursor-pointer hover:opacity-70 transition p-10 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600 bg-slate-100">
+                        <div 
+                            className="relative cursor-pointer hover:opacity-70 transition p-10 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600 bg-slate-100"
+                            onClick={() => open()}
+                        >
                             <TbPhotoPlus 
                                 size={50}
                             />
