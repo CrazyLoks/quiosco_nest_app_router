@@ -14,7 +14,7 @@ export default function OrdersPage() {
     revalidateOnFocus: false // esto refresca cada que regresamos al código, por eso se inhabilita
   })
 
-  if (isLoading) return 'Cargando...';
+  if (isLoading) return <p>Cargando...</p>
 
   if (data) return (
     <>
