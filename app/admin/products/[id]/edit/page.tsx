@@ -1,3 +1,6 @@
+import EditProductForm from "@/components/products/EditProductForm";
+import ProductForm from "@/components/products/ProductForm";
+import Heading from "@/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma"
 import { notFound } from "next/navigation";
 
@@ -16,9 +19,17 @@ async function getProductById(id: number) {
 
 export default async function EditProductsPage({ params } : { params: { id: string }}) {
 
-    const product = await getProductById(+params.id)
+    const product = await getProductById(+params.id);
 
     return (
-        <div>page</div>
+        <>
+            <Heading>Editar Producto: {product.name}</Heading>
+
+            <EditProductForm> {/* Componente de cliente, pero como tiene children, podemos pasarle un componente de servidor */}
+                <ProductForm 
+                    product={product}
+                />
+            </EditProductForm>
+        </>
     )
 }
