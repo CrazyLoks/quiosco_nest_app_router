@@ -4,7 +4,7 @@ import Logo from "@/components/ui/Logo";
 import { OrderWithProducts } from "@/src/types";
 import useSWR from "swr";
 
-export default function page() {
+export default function Page() {
     const url = '/orders/api';
     const fetcher = () => fetch(url).then(res => res.json()).then(data => data);
     const { data, error, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, { // useSWR es para tener un comportamiento real y tener los datos actualizados, como reactQuery
