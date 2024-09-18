@@ -1,4 +1,5 @@
 import { prisma } from "@/src/lib/prisma"
+import { notFound } from "next/navigation";
 
 async function getProductById(id: number) {
     const product = await prisma.product.findUnique({ // se trae el primer registro que encuentre
@@ -7,7 +8,7 @@ async function getProductById(id: number) {
         }
     })
     if (!product) {
-        
+        notFound(); // Esta funcion propia de next, va a buscar el componente not-found de esta seccion
     }
 
     return product;
